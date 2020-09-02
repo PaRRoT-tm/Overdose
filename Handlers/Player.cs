@@ -78,6 +78,12 @@ namespace Overdose.Handlers
             if(numOverdoses.ContainsKey(ev.Target.Id)) numOverdoses.Remove(ev.Target.Id);
         }
 
+        public void OnLeft(LeftEventArgs ev)
+        {
+            if (medicalUsers.ContainsKey(ev.Player.Id)) medicalUsers.Remove(ev.Player.Id);
+            if (numOverdoses.ContainsKey(ev.Player.Id)) numOverdoses.Remove(ev.Player.Id);
+        }
+
         public IEnumerator<float> HealthDrain()
         {
             double HealthPerSec = Overdose.Instance.Config.HealthDrainPerSecond;
