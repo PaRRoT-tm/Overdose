@@ -15,9 +15,15 @@ namespace Overdose
         public static Overdose Instance => LazyInstance.Value;
 
         public override PluginPriority Priority { get; } = PluginPriority.Medium;
-        private Overdose() { }
+        public override string Name { get; } = "Overdose";
+        public override string Author { get; } = "Steven4547466";
+        public override Version Version { get; } = new Version(1, 0, 0);
+        public override Version RequiredExiledVersion { get; } = new Version(2, 1, 0);
+        public override string Prefix { get; } = "Overdose";
 
         public List<CoroutineHandle> Coroutines = new List<CoroutineHandle>();
+
+        private Overdose() {}
 
         public Handlers.Player player { get; set; }
         public Handlers.Server server { get; set; }
