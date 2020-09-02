@@ -47,6 +47,7 @@ namespace Overdose
 
             Player.MedicalItemUsed += player.OnMedicalItemUsed;
             Player.Died += player.OnDied;
+            Player.ChangingRole += player.OnChangingRole;
 
             server = new Handlers.Server();
             Server.RoundEnded += server.OnRoundEnded;
@@ -57,6 +58,7 @@ namespace Overdose
         {
             Player.MedicalItemUsed -= player.OnMedicalItemUsed;
             Player.Died -= player.OnDied;
+            Player.ChangingRole -= player.OnChangingRole;
 
             player = null;
 
