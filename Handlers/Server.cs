@@ -12,7 +12,7 @@ namespace Overdose.Handlers
             Overdose.Instance.mainCoroEnabled = false;
             foreach (CoroutineHandle handle in Overdose.Instance.Coroutines)
             {
-                //Log.Debug($"Killed coro {handle}");
+                Log.Debug($"Killed coro {handle}", Overdose.Instance.Config.Debug);
                 Timing.KillCoroutines(handle);
             }
 

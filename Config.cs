@@ -40,5 +40,8 @@ namespace Overdose
 
         [Description("Sets the message the player sees when they begin to drain health.")]
         public string OverdoseMessage { get; set; } = "You begin to feel sick";
+
+        [Description("Show debug messages?")]
+        public bool Debug { get; set; } = false;
     }
 }

@@ -24,20 +24,20 @@ namespace Overdose.Handlers
             if (ev.Item == ItemType.Medkit && Overdose.Instance.Config.MedKitEnabled == false) return;
             if (ev.Item == ItemType.SCP500 && Overdose.Instance.Config.CanBeCleansed)
             {
-                // Log.Debug($"Player with id {ev.Player.Id} has been cleansed by SCP-500.");
+                Log.Debug($"Player with id {ev.Player.Id} has been cleansed by SCP-500.", Overdose.Instance.Config.Debug);
                 if (medicalUsers.ContainsKey(ev.Player.Id)) medicalUsers.Remove(ev.Player.Id);
                 if (numOverdoses.ContainsKey(ev.Player.Id)) numOverdoses.Remove(ev.Player.Id);
                 return;
             }
 
-            // Log.Debug($"Player with id {ev.Player.Id} has used a medical item.");
+            Log.Debug($"Player with id {ev.Player.Id} has used a medical item.");
             if (medicalUsers.ContainsKey(ev.Player.Id))
             {
                 medicalUsers[ev.Player.Id] += 1;
-                // Log.Debug($"Medical items used: {medicalUsers[ev.Player.Id]} and min uses: {Overdose.Instance.Config.MinUses}");
+                Log.Debug($"Medical items used: {medicalUsers[ev.Player.Id]} and min uses: {Overdose.Instance.Config.MinUses}", Overdose.Instance.Config.Debug);
                 if (medicalUsers[ev.Player.Id] >= Overdose.Instance.Config.MinUses)
                 {
-                    // Log.Debug($"Player with id {ev.Player.Id} could overdose.");
+                    Log.Debug($"Player with id {ev.Player.Id} could overdose.", Overdose.Instance.Config.Debug);
                     double chance = 0;
                     if(Overdose.Instance.Config.ChanceIncreaseExponential == false)
                     {
@@ -62,16 +62,16 @@ namespace Overdose.Handlers
                                 Overdose.Instance.Coroutines.Add(co);
                             }
                         }
-                        // Log.Debug($"Player with id {ev.Player.Id} has overdosed {numOverdoses[ev.Player.Id]} times.");
+                        Log.Debug($"Player with id {ev.Player.Id} has overdosed {numOverdoses[ev.Player.Id]} times.", Overdose.Instance.Config.Debug);
                         ev.Player.Broadcast(5, Overdose.Instance.Config.OverdoseMessage);
                     }else
                     {
-                        // Log.Debug($"Player with id {ev.Player.Id} has failed to overdose chance: {chance} value: {val}");
+                        Log.Debug($"Player with id {ev.Player.Id} has failed to overdose chance: {chance} value: {val}", Overdose.Instance.Config.Debug);
                     }
                 }
             }else
             {
-                // Log.Debug($"Player with id {ev.Player.Id} has been added to the medialUsers dictionary.");
+                Log.Debug($"Player with id {ev.Player.Id} has been added to the medialUsers dictionary.", Overdose.Instance.Config.Debug);
                 medicalUsers.Add(ev.Player.Id, 1);
             }
         }
@@ -102,7 +102,7 @@ namespace Overdose.Handlers
                 double HealthPerSecInc = Overdose.Instance.Config.HealthDrainPerSecondIncrease;
                 foreach (var ent in numOverdoses)
                 {
-                    //Log.Debug($"Player with id {ent.Key} has drained {HealthPerSec + (HealthPerSecInc * (ent.Value - 1))} health.");
+                    Log.Debug($"Player with id {ent.Key} has drained {HealthPerSec + (HealthPerSecInc * (ent.Value - 1))} health.", Overdose.Instance.Config.Debug);
                     EPlayer p = EPlayer.Get(ent.Key);
                     if (p.Health - HealthPerSec + (HealthPerSecInc * (ent.Value - 1)) <= 0)
                     {
@@ -116,7 +116,7 @@ namespace Overdose.Handlers
                 yield return Timing.WaitForSeconds(1f);
             }
             Overdose.Instance.mainCoroEnabled = false;
-            //Log.Debug($"Stoping Coro {co}");
+            Log.Debug($"Stoping Coro {co}", Overdose.Instance.Config.Debug);
             Timing.KillCoroutines(co);
             yield break;
         }

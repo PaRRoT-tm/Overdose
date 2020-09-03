@@ -59,6 +59,7 @@ namespace Overdose
             Player.MedicalItemUsed += player.OnMedicalItemUsed;
             Player.Died += player.OnDied;
             Player.ChangingRole += player.OnChangingRole;
+            Player.Left += player.OnLeft;
 
             server = new Handlers.Server();
             Server.RoundEnded += server.OnRoundEnded;
@@ -72,6 +73,7 @@ namespace Overdose
             Player.MedicalItemUsed -= player.OnMedicalItemUsed;
             Player.Died -= player.OnDied;
             Player.ChangingRole -= player.OnChangingRole;
+            Player.Left -= player.OnLeft;
 
             player = null;
 
@@ -82,7 +84,7 @@ namespace Overdose
 
             foreach (CoroutineHandle handle in Coroutines)
             {
-                //Log.Debug($"Killed coro {handle}");
+                Log.Debug($"Killed coro {handle}", Overdose.Instance.Config.Debug);
                 Timing.KillCoroutines(handle);
             }
 
