@@ -1,7 +1,7 @@
 This is a simple plugin that adds overdosing by use of medical items to SCP: Secret Lab. It's highly customizable with the config. Works with MedKits, Adrenaline, and Painkillers.
 
 
-You can download the dll [here](https://github.com/steven4547466/Overdose/raw/master/Assets/Overdose.dll). This plugin requires EXILED, which you can find [here](https://github.com/galaxy119/EXILED).
+You can download the dll [here](https://github.com/steven4547466/Overdose/releases/latest). This plugin requires EXILED, which you can find [here](https://github.com/galaxy119/EXILED).
 
 Please report any issues you find or feature requests!
 
