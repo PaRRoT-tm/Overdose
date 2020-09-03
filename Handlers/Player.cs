@@ -22,6 +22,7 @@ namespace Overdose.Handlers
             if (ev.Item == ItemType.Adrenaline && Overdose.Instance.Config.AdrenalineEnabled == false) return;
             if (ev.Item == ItemType.Painkillers && Overdose.Instance.Config.PainkillerEnabled == false) return;
             if (ev.Item == ItemType.Medkit && Overdose.Instance.Config.MedKitEnabled == false) return;
+            if (ev.Item == ItemType.SCP207 && Overdose.Instance.Config.SCP207Enabled == false) return;
             if (ev.Item == ItemType.SCP500 && Overdose.Instance.Config.CanBeCleansed)
             {
                 Log.Debug($"Player with id {ev.Player.Id} has been cleansed by SCP-500.", Overdose.Instance.Config.Debug);

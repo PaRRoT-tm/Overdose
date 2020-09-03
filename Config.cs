@@ -35,6 +35,9 @@ namespace Overdose
         [Description("Sets whether this plugin works on medkits.")]
         public bool MedKitEnabled { get; set; } = false;
 
+        [Description("Sets whether this plugin works on SCP-207.")]
+        public bool SCP207Enabled { get; set; } = false;
+
         [Description("Sets whether SCP-500 cleanses the effect.")]
         public bool CanBeCleansed { get; set; } = true;
 
