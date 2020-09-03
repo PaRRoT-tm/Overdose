@@ -15,12 +15,14 @@ namespace Overdose.Handlers
         public Dictionary<int, int> numOverdoses = new Dictionary<int, int>();
 
         Random rnd = new Random();
+
+        CoroutineHandle co;
         public void OnMedicalItemUsed(UsedMedicalItemEventArgs ev)
         {
             if (ev.Item == ItemType.Adrenaline && Overdose.Instance.Config.AdrenalineEnabled == false) return;
             if (ev.Item == ItemType.Painkillers && Overdose.Instance.Config.PainkillerEnabled == false) return;
             if (ev.Item == ItemType.Medkit && Overdose.Instance.Config.MedKitEnabled == false) return;
-            if(ev.Item == ItemType.SCP500 && Overdose.Instance.Config.CanBeCleansed)
+            if (ev.Item == ItemType.SCP500 && Overdose.Instance.Config.CanBeCleansed)
             {
                 // Log.Debug($"Player with id {ev.Player.Id} has been cleansed by SCP-500.");
                 if (medicalUsers.ContainsKey(ev.Player.Id)) medicalUsers.Remove(ev.Player.Id);
@@ -55,7 +57,9 @@ namespace Overdose.Handlers
                             numOverdoses.Add(ev.Player.Id, 1);
                             if(numOverdoses.Count == 1)
                             {
-                                Overdose.Instance.Coroutines.Add(Timing.RunCoroutine(HealthDrain()));
+                                Overdose.Instance.mainCoroEnabled = true;
+                                co = Timing.RunCoroutine(HealthDrain());
+                                Overdose.Instance.Coroutines.Add(co);
                             }
                         }
                         // Log.Debug($"Player with id {ev.Player.Id} has overdosed {numOverdoses[ev.Player.Id]} times.");
@@ -92,13 +96,13 @@ namespace Overdose.Handlers
 
         public IEnumerator<float> HealthDrain()
         {
-            double HealthPerSec = Overdose.Instance.Config.HealthDrainPerSecond;
-            double HealthPerSecInc = Overdose.Instance.Config.HealthDrainPerSecondIncrease;
-            for (; ; )
+            while (numOverdoses != null && numOverdoses.Count > 0)
             {
-                foreach(var ent in numOverdoses)
+                double HealthPerSec = Overdose.Instance.Config.HealthDrainPerSecond;
+                double HealthPerSecInc = Overdose.Instance.Config.HealthDrainPerSecondIncrease;
+                foreach (var ent in numOverdoses)
                 {
-                    // Log.Debug($"Player with id {ent.Key} has drained {HealthPerSec + (HealthPerSecInc * (ent.Value - 1))} health.");
+                    //Log.Debug($"Player with id {ent.Key} has drained {HealthPerSec + (HealthPerSecInc * (ent.Value - 1))} health.");
                     EPlayer p = EPlayer.Get(ent.Key);
                     if (p.Health - HealthPerSec + (HealthPerSecInc * (ent.Value - 1)) <= 0)
                     {
@@ -111,6 +115,10 @@ namespace Overdose.Handlers
                 }
                 yield return Timing.WaitForSeconds(1f);
             }
+            Overdose.Instance.mainCoroEnabled = false;
+            //Log.Debug($"Stoping Coro {co}");
+            Timing.KillCoroutines(co);
+            yield break;
         }
     }
 }

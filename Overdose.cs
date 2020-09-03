@@ -17,8 +17,8 @@ namespace Overdose
         public override PluginPriority Priority { get; } = PluginPriority.Medium;
         public override string Name { get; } = "Overdose";
         public override string Author { get; } = "Steven4547466";
-        public override Version Version { get; } = new Version(1, 0, 0);
-        public override Version RequiredExiledVersion { get; } = new Version(2, 1, 0);
+        public override Version Version { get; } = new Version(1, 0, 1);
+        public override Version RequiredExiledVersion { get; } = new Version(2, 1, 2);
         public override string Prefix { get; } = "Overdose";
 
         public List<CoroutineHandle> Coroutines = new List<CoroutineHandle>();
@@ -28,17 +28,28 @@ namespace Overdose
         public Handlers.Player player { get; set; }
         public Handlers.Server server { get; set; }
 
+        public bool mainCoroEnabled { get; set; }
+
 
         public override void OnEnabled()
         {
+            if (Overdose.Instance.Config.IsEnabled == false) return;
+            base.OnEnabled();
             Log.Info("Overdose enabled.");
             RegisterEvents();
         }
 
         public override void OnDisabled()
         {
+            base.OnDisabled();
             Log.Info("Overdose disabled.");
             UnregisterEvents();
+        }
+
+        public override void OnReloaded()
+        {
+            base.OnReloaded();
+            Log.Info("Overdose reloading.");
         }
 
         public void RegisterEvents()
@@ -56,6 +67,8 @@ namespace Overdose
 
         public void UnregisterEvents()
         {
+            Log.Info("Events unregistered");
+            mainCoroEnabled = false;
             Player.MedicalItemUsed -= player.OnMedicalItemUsed;
             Player.Died -= player.OnDied;
             Player.ChangingRole -= player.OnChangingRole;
@@ -68,7 +81,12 @@ namespace Overdose
             server = null;
 
             foreach (CoroutineHandle handle in Coroutines)
+            {
+                //Log.Debug($"Killed coro {handle}");
                 Timing.KillCoroutines(handle);
+            }
+
+            Coroutines = null;
 
             player.medicalUsers = null;
             player.numOverdoses = null;
