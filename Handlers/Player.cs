@@ -19,6 +19,7 @@ namespace Overdose.Handlers
         CoroutineHandle co;
         public void OnMedicalItemUsed(UsedMedicalItemEventArgs ev)
         {
+            if (medicalUsers == null || numOverdoses == null) return;
             if (ev.Item == ItemType.Adrenaline && Overdose.Instance.Config.AdrenalineEnabled == false) return;
             if (ev.Item == ItemType.Painkillers && Overdose.Instance.Config.PainkillerEnabled == false) return;
             if (ev.Item == ItemType.Medkit && Overdose.Instance.Config.MedKitEnabled == false) return;
@@ -26,8 +27,8 @@ namespace Overdose.Handlers
             if (ev.Item == ItemType.SCP500 && Overdose.Instance.Config.CanBeCleansed)
             {
                 Log.Debug($"Player with id {ev.Player.Id} has been cleansed by SCP-500.", Overdose.Instance.Config.Debug);
-                if (medicalUsers.ContainsKey(ev.Player.Id)) medicalUsers.Remove(ev.Player.Id);
-                if (numOverdoses.ContainsKey(ev.Player.Id)) numOverdoses.Remove(ev.Player.Id);
+                if (medicalUsers != null && medicalUsers.ContainsKey(ev.Player.Id)) medicalUsers.Remove(ev.Player.Id);
+                if (numOverdoses != null && numOverdoses.ContainsKey(ev.Player.Id)) numOverdoses.Remove(ev.Player.Id);
                 return;
             }
 
@@ -79,20 +80,20 @@ namespace Overdose.Handlers
 
         public void OnDied(DiedEventArgs ev)
         {
-            if (medicalUsers.ContainsKey(ev.Target.Id)) medicalUsers.Remove(ev.Target.Id);
-            if(numOverdoses.ContainsKey(ev.Target.Id)) numOverdoses.Remove(ev.Target.Id);
+            if (medicalUsers != null && medicalUsers.ContainsKey(ev.Target.Id)) medicalUsers.Remove(ev.Target.Id);
+            if (numOverdoses != null && numOverdoses.ContainsKey(ev.Target.Id)) numOverdoses.Remove(ev.Target.Id);
         }
 
         public void OnLeft(LeftEventArgs ev)
         {
-            if (medicalUsers.ContainsKey(ev.Player.Id)) medicalUsers.Remove(ev.Player.Id);
-            if (numOverdoses.ContainsKey(ev.Player.Id)) numOverdoses.Remove(ev.Player.Id);
+            if (medicalUsers != null && medicalUsers.ContainsKey(ev.Player.Id)) medicalUsers.Remove(ev.Player.Id);
+            if (numOverdoses != null && numOverdoses.ContainsKey(ev.Player.Id)) numOverdoses.Remove(ev.Player.Id);
         }
 
         public void OnChangingRole(ChangingRoleEventArgs ev) 
         {
-            if (medicalUsers.ContainsKey(ev.Player.Id)) medicalUsers.Remove(ev.Player.Id);
-            if (numOverdoses.ContainsKey(ev.Player.Id)) numOverdoses.Remove(ev.Player.Id);
+            if (medicalUsers != null && medicalUsers.ContainsKey(ev.Player.Id)) medicalUsers.Remove(ev.Player.Id);
+            if (numOverdoses != null && numOverdoses.ContainsKey(ev.Player.Id)) numOverdoses.Remove(ev.Player.Id);
         }
 
         public IEnumerator<float> HealthDrain()
