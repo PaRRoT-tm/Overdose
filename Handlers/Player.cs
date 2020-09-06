@@ -32,7 +32,7 @@ namespace Overdose.Handlers
                 return;
             }
 
-            Log.Debug($"Player with id {ev.Player.Id} has used a medical item.");
+            Log.Debug($"Player with id {ev.Player.Id} has used a medical item.", Overdose.Instance.Config.Debug);
             if (medicalUsers.ContainsKey(ev.Player.Id))
             {
                 medicalUsers[ev.Player.Id] += 1;

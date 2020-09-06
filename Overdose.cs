@@ -17,8 +17,8 @@ namespace Overdose
         public override PluginPriority Priority { get; } = PluginPriority.Medium;
         public override string Name { get; } = "Overdose";
         public override string Author { get; } = "Steven4547466";
-        public override Version Version { get; } = new Version(1, 0, 1);
-        public override Version RequiredExiledVersion { get; } = new Version(2, 1, 2);
+        public override Version Version { get; } = new Version(1, 0, 2);
+        public override Version RequiredExiledVersion { get; } = new Version(2, 1, 3);
         public override string Prefix { get; } = "Overdose";
 
         public List<CoroutineHandle> Coroutines = new List<CoroutineHandle>();
@@ -82,16 +82,16 @@ namespace Overdose
 
             server = null;
 
-            foreach (CoroutineHandle handle in Coroutines)
+            if (Coroutines != null)
             {
-                Log.Debug($"Killed coro {handle}", Overdose.Instance.Config.Debug);
-                Timing.KillCoroutines(handle);
+                foreach (CoroutineHandle handle in Coroutines)
+                {
+                    Log.Debug($"Killed coro {handle}", Overdose.Instance.Config.Debug);
+                    Timing.KillCoroutines(handle);
+                }
+
+                Coroutines = null;
             }
-
-            Coroutines = null;
-
-            player.medicalUsers = null;
-            player.numOverdoses = null;
         }
     }
 }
