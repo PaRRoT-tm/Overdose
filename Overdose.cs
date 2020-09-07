@@ -17,7 +17,7 @@ namespace Overdose
         public override PluginPriority Priority { get; } = PluginPriority.Medium;
         public override string Name { get; } = "Overdose";
         public override string Author { get; } = "Steven4547466";
-        public override Version Version { get; } = new Version(1, 0, 2);
+        public override Version Version { get; } = new Version(1, 0, 3);
         public override Version RequiredExiledVersion { get; } = new Version(2, 1, 3);
         public override string Prefix { get; } = "Overdose";
 
@@ -37,6 +37,7 @@ namespace Overdose
             base.OnEnabled();
             Log.Info("Overdose enabled.");
             RegisterEvents();
+            Coroutines = new List<CoroutineHandle>();
         }
 
         public override void OnDisabled()
