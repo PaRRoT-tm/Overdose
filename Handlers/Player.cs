@@ -108,6 +108,10 @@ namespace Overdose.Handlers
                 {
                     Log.Debug($"Player with id {ent.Key} has drained {HealthPerSec + (HealthPerSecInc * (ent.Value - 1))} health.", Overdose.Instance.Config.Debug);
                     EPlayer p = EPlayer.Get(ent.Key);
+                    if (p.IsGodModeEnabled) 
+                    {
+                        numOverdoses.Remove(ent.Key);
+                    }
                     if (p.Health - HealthPerSec + (HealthPerSecInc * (ent.Value - 1)) <= 0)
                     {
                         numOverdoses.Remove(ent.Key);
