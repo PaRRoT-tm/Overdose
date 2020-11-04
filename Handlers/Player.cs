@@ -22,7 +22,7 @@ namespace Overdose.Handlers
             if (medicalUsers == null || numOverdoses == null) return;
             if (ev.Player.IsGodModeEnabled) return;
             if (ev.Item == ItemType.SCP268) return;
-            if (ev.Item.IsSCP330()) return;
+            //if (ev.Item.IsSCP330()) return;
             if (ev.Item == ItemType.Adrenaline && Overdose.Instance.Config.AdrenalineEnabled == false) return;
             if (ev.Item == ItemType.Painkillers && Overdose.Instance.Config.PainkillerEnabled == false) return;
             if (ev.Item == ItemType.Medkit && Overdose.Instance.Config.MedKitEnabled == false) return;
