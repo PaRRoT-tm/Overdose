@@ -6,7 +6,7 @@ namespace Overdose
 {
     public sealed class Config : IConfig
     {
-        public bool IsEnabled { get; set; } = true;
+        public bool IsEnabled { get; set; } = false;
 
         [Description("Sets the min uses before possible chance of getting poisoned (It's impossible to be poisoned before this number). Must be greater than 1.")]
         public int MinUses { get; set; } = 2;
