@@ -11,8 +11,7 @@ namespace Overdose
 {
     public class Overdose : Plugin<Config>
     {
-        private static readonly Lazy<Overdose> LazyInstance = new Lazy<Overdose>(() => new Overdose());
-        public static Overdose Instance => LazyInstance.Value;
+        public static Overdose Singleton;
 
         public override PluginPriority Priority { get; } = PluginPriority.Medium;
         public override string Name { get; } = "Overdose";
@@ -23,8 +22,6 @@ namespace Overdose
 
         public List<CoroutineHandle> Coroutines = new List<CoroutineHandle>();
 
-        private Overdose() {}
-
         public Handlers.Player player { get; set; }
         public Handlers.Server server { get; set; }
 
@@ -33,7 +30,9 @@ namespace Overdose
 
         public override void OnEnabled()
         {
-            if (Overdose.Instance.Config.IsEnabled == false) return;
+            Singleton = this;
+
+            if (Overdose.Singleton.Config.IsEnabled == false) return;
             base.OnEnabled();
             Log.Info("Overdose enabled.");
             RegisterEvents();
@@ -87,7 +86,7 @@ namespace Overdose
             {
                 foreach (CoroutineHandle handle in Coroutines)
                 {
-                    Log.Debug($"Killed coro {handle}", Overdose.Instance.Config.Debug);
+                    Log.Debug($"Killed coro {handle}", Overdose.Singleton.Config.Debug);
                     Timing.KillCoroutines(handle);
                 }
 
