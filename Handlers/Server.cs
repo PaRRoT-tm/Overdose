@@ -9,23 +9,23 @@ namespace Overdose.Handlers
     {
         public void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            Overdose.Instance.mainCoroEnabled = false;
-            foreach (CoroutineHandle handle in Overdose.Instance.Coroutines)
+            Overdose.Singleton.mainCoroEnabled = false;
+            foreach (CoroutineHandle handle in Overdose.Singleton.Coroutines)
             {
-                Log.Debug($"Killed coro {handle}", Overdose.Instance.Config.Debug);
+                Log.Debug($"Killed coro {handle}", Overdose.Singleton.Config.Debug);
                 Timing.KillCoroutines(handle);
             }
 
-            Overdose.Instance.Coroutines = new List<CoroutineHandle>();
+            Overdose.Singleton.Coroutines = new List<CoroutineHandle>();
 
-            Overdose.Instance.player.medicalUsers = null;
-            Overdose.Instance.player.numOverdoses = null;
+            Overdose.Singleton.player.medicalUsers = null;
+            Overdose.Singleton.player.numOverdoses = null;
         }
 
         public void OnRoundStarted()
         {
-            Overdose.Instance.player.medicalUsers = new Dictionary<int, int>();
-            Overdose.Instance.player.numOverdoses = new Dictionary<int, int>();
+            Overdose.Singleton.player.medicalUsers = new Dictionary<int, int>();
+            Overdose.Singleton.player.numOverdoses = new Dictionary<int, int>();
         }
     }
 }
