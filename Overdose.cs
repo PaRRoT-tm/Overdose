@@ -16,8 +16,8 @@ namespace Overdose
         public override PluginPriority Priority { get; } = PluginPriority.Medium;
         public override string Name { get; } = "Overdose";
         public override string Author { get; } = "Steven4547466";
-        public override Version Version { get; } = new Version(1, 0, 8);
-        public override Version RequiredExiledVersion { get; } = new Version(3, 7, 2);
+        public override Version Version { get; } = new Version(1, 1, 0);
+        public override Version RequiredExiledVersion { get; } = new Version(4, 1, 2);
         public override string Prefix { get; } = "Overdose";
 
         public List<CoroutineHandle> Coroutines = new List<CoroutineHandle>();
