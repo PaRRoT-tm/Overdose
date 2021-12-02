@@ -116,7 +116,7 @@ namespace Overdose.Handlers
                     {
                         numOverdoses.Remove(ent.Key);
                         medicalUsers.Remove(ent.Key);
-                        p.Kill(DamageTypes.Asphyxiation);
+                        p.EnableEffect(Exiled.API.Enums.EffectType.Asphyxiated);
                         continue;
                     }
                     p.Health -= (float) (HealthPerSec + (HealthPerSecInc * (ent.Value - 1)));
